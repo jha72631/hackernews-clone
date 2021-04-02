@@ -1,10 +1,10 @@
-package com.hacker.news;
+package com.hackernews;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class NewsApplicationTests {
+class HackerNewsApplicationTests {
 
 	@Test
 	void contextLoads() {
