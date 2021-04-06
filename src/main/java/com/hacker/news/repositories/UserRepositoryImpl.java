@@ -1,6 +1,5 @@
 package com.hacker.news.repositories;
 
-import com.hacker.news.model.Post;
 import com.hacker.news.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

@@ -6,6 +6,10 @@ import com.hacker.news.model.Comment;
 import com.hacker.news.model.Post;
 import com.hacker.news.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -73,6 +77,12 @@ public class PostServiceImpl implements PostService {
                 populateHierarchicalCommentDto(comment.getCommentId(), commentDto.getCommentDtoList());
             }
         }
+    }
+
+    public Page<Post> getAllPostPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+        Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
+        Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
+        return postRepository.getAllPostPaginated(pageable);
     }
 
 }
