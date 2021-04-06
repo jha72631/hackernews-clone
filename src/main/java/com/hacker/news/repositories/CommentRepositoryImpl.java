@@ -34,6 +34,13 @@ public class CommentRepositoryImpl implements CommentRepository{
     }
 
     @Override
+    public Comment findCommentByCommentId(String commentId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("commentId").is(commentId));
+        return mongoTemplate.findOne(query, Comment.class);
+    }
+
+    @Override
     public List<Comment> findCommentByParentStoryId(String parentStoryId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("parentStoryId").is(parentStoryId));
@@ -44,6 +51,13 @@ public class CommentRepositoryImpl implements CommentRepository{
     public List<Comment> findCommentByParentCommentId(String parentCommentId) {
         Query query = new Query();
         query.addCriteria(Criteria.where("parentCommentId").is(parentCommentId));
+        return mongoTemplate.find(query, Comment.class);
+    }
+
+    @Override
+    public List<Comment> fetchCommentsByParentType(String parentType) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("parentType").is(parentType));
         return mongoTemplate.find(query, Comment.class);
     }
 
