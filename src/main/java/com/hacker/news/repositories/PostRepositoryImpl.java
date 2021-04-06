@@ -17,8 +17,9 @@ public class PostRepositoryImpl implements PostRepository{
 
     @Override
     public Post getPostById(String postId) {
-
-        return null;
+        Query query = new Query();
+        query.addCriteria(Criteria.where("postId").is(postId));
+        return mongoTemplate.findOne(query, Post.class);
     }
 
     @Override
