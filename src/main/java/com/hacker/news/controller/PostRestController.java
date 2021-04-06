@@ -4,20 +4,23 @@ import com.hacker.news.dto.PostDto;
 import com.hacker.news.model.Post;
 import com.hacker.news.service.CommentService;
 import com.hacker.news.service.PostService;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-@Controller
-public class PostController {
+@RestController
+@RequestMapping("/api")
+public class PostRestController {
 
     private final PostService postService;
     private final CommentService commentService;
 
-    public PostController(PostService postService, CommentService commentService) {
+    public PostRestController(PostService postService, CommentService commentService) {
         this.postService = postService;
         this.commentService = commentService;
     }
@@ -31,16 +34,21 @@ public class PostController {
     }
 
     @RequestMapping(value = "/post", method = POST)
-    public String create(@ModelAttribute("post") Post post) {
-        postService.createPost(post);
+    public String create(@RequestParam("new")int create) {
+        if(create==1) {
+            System.out.println(create);
+            //Post post = new Post("News HN", "Sanjay", "news in demand", "https://learn.mountblue.io/dashboard", "latest news");
+            //postService.createPost(post);
+        }
+
         return "redirect:/post";
     }
 
-    @RequestMapping("/")
-    public String list(Model model) {
+    @RequestMapping(value = "/", method = GET)
+    public Object list(Model model) {
         List<Post> listOfPost= postService.fetchListOfPosts();
         model.addAttribute("allPost",listOfPost);
-        return "index";
+        return listOfPost;
     }
 
     @RequestMapping(value = "/post", method = GET)
@@ -49,5 +57,4 @@ public class PostController {
         model.addAttribute("post", post);
         return "post";
     }
-
 }

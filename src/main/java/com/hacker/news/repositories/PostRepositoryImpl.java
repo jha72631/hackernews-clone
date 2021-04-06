@@ -2,11 +2,13 @@ package com.hacker.news.repositories;
 
 import com.hacker.news.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
-
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @Repository
@@ -34,6 +36,7 @@ public class PostRepositoryImpl implements PostRepository{
 
     @Override
     public Post savePost(Post post) {
+        System.out.println("inside repo");
         mongoTemplate.save(post);
         return post;
     }
@@ -44,8 +47,13 @@ public class PostRepositoryImpl implements PostRepository{
     }
 
     @Override
-    public List<Post> getAllPostPaginated(int pageNumber, int pageSize) {
-        return null;
+    public Page<Post> getAllPostPaginated(Pageable pageable) {
+        Query query = new Query();
+        long count = this.mongoTemplate.count(query, Post.class);
+
+        query.with(pageable);
+        List<Post> posts = mongoTemplate.find(query, Post.class);
+        return PageableExecutionUtils.getPage(posts, pageable, () -> count);
     }
 
     @Override

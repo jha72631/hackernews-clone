@@ -3,8 +3,6 @@ package com.hacker.news.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
-
 @Document(collection = "post")
 public class Post {
 
@@ -21,14 +19,13 @@ public class Post {
     public Post() {
     }
 
-    public Post(String postType, String author, Long createdAt, String title, String url, String textContent, Integer score) {
+    public Post(String postType, String author, String title, String url, String textContent) {
         this.postType = postType;
         this.author = author;
-        this.createdAt = createdAt;
         this.title = title;
         this.url = url;
         this.textContent = textContent;
-        this.score = score;
+        this.score = 1;
     }
 
     public String getPostId() {
@@ -61,6 +58,7 @@ public class Post {
 
     public void setCreatedAt(Long createdAt) {
         this.createdAt = createdAt;
+        System.out.println("createdAt"+this.createdAt);
     }
 
     public String getTitle() {

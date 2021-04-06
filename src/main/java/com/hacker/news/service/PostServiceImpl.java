@@ -26,6 +26,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void createPost(Post post) {
+        System.out.println("inside Service");
         post.setCreatedAt(new Date().getTime());
         postRepository.savePost(post);
     }
@@ -40,7 +41,7 @@ public class PostServiceImpl implements PostService {
         PostDto postDto = new PostDto();
         postDto.setPost(postRepository.getPostById(postId));
 
-        List<Comment> commentList = commentService.fetchCommentByParentType("post ");
+        List<Comment> commentList = commentService.fetchCommentByParentType("post");
         if(Objects.nonNull(commentList)) {
             for (int i=0;i<commentList.size();i++) {
                 Comment comment = commentList.get(i);
@@ -64,8 +65,7 @@ public class PostServiceImpl implements PostService {
     public void populateHierarchicalCommentDto(String parentCommentId, List<CommentDto> commentDtoList) {
         List<Comment> commentList = commentService.fetchCommentByParentCommentId(parentCommentId);
         if(Objects.nonNull(commentList)) {
-            for (int i=0;i<commentList.size();i++) {
-                Comment comment = commentList.get(i);
+            for (Comment comment : commentList) {
                 CommentDto commentDto = new CommentDto();
                 commentDto.setComment(comment);
                 commentDtoList.add(commentDto);
@@ -73,10 +73,6 @@ public class PostServiceImpl implements PostService {
                 populateHierarchicalCommentDto(comment.getCommentId(), commentDto.getCommentDtoList());
             }
         }
-        return;
     }
-
-
-
 
 }
