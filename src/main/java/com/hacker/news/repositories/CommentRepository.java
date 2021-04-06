@@ -9,8 +9,10 @@ public interface CommentRepository {
     Comment saveComment(Comment comment);
     List<Comment> getAllComment();
     Comment findOneByName(String name);
+    Comment findCommentByCommentId(String commentId);
     List<Comment> findCommentByParentStoryId(String parentStoryId);
     List<Comment> findCommentByParentCommentId(String parentCommentId);
+    List<Comment> fetchCommentsByParentType(String parentType);
     List<Comment> findByAuthorName(String name);
     Comment updateOneComment(Comment comment);
     void deleteComment(Comment comment);
