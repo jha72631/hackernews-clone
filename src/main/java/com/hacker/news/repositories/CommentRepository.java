@@ -13,6 +13,7 @@ public interface CommentRepository {
     List<Comment> findCommentByParentStoryId(String parentStoryId);
     List<Comment> findCommentByParentCommentId(String parentCommentId);
     List<Comment> fetchCommentsByParentType(String parentType);
+    List<Comment> fetchCommentsByParentTypeAndPostId(String parentType, String postId);
     List<Comment> findByAuthorName(String name);
     Comment updateOneComment(Comment comment);
     void deleteComment(Comment comment);

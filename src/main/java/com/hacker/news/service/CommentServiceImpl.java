@@ -48,6 +48,11 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public List<Comment> fetchCommentByParentTypeAndPostId(String parentType, String postId) {
+        return commentRepository.fetchCommentsByParentTypeAndPostId(parentType, postId);
+    }
+
+    @Override
     public List<Comment> fetchAllComments() {
         return commentRepository.getAllComment();
     }
