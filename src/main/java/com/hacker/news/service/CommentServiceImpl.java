@@ -47,4 +47,15 @@ public class CommentServiceImpl implements CommentService {
         return commentRepository.fetchCommentsByParentType(parentType);
     }
 
+    @Override
+    public List<Comment> fetchAllComments() {
+        return commentRepository.getAllComment();
+    }
+
+    @Override
+    public void deleteComments(Comment comment) {
+        commentRepository.deleteComment(comment);
+        return;
+    }
+
 }

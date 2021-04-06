@@ -40,7 +40,7 @@ public class PostServiceImpl implements PostService {
         PostDto postDto = new PostDto();
         postDto.setPost(postRepository.getPostById(postId));
 
-        List<Comment> commentList = commentService.fetchCommentByParentType("post");
+        List<Comment> commentList = commentService.fetchCommentByParentType("post ");
         if(Objects.nonNull(commentList)) {
             for (int i=0;i<commentList.size();i++) {
                 Comment comment = commentList.get(i);
