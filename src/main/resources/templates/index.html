@@ -21,7 +21,7 @@
       <table class="pagetop">
         <thead>
         <tr>
-          <td class="top-logo"><a href="/about"><strong>Imagine</strong></a></td>
+          <td class="top-logo"><a href="/about"><strong>HN</strong></a></td>
           <td class="top-nav">
             <nav>
               <a href="/post">news</a>
@@ -41,7 +41,7 @@
             </form>
           </td>
           <td class="top-status" th:unless="${isLoggedIn}">
-            <a href="/login">login</a>
+            <a href="/user">login</a>
           </td>
         </tr>
         </thead>
@@ -83,7 +83,7 @@
       </th:block>
       <tr th:if="${nextPage}">
         <td colspan="2"></td>
-        <td class="more"><a th:href="@{/post(p=${nextPage},s=${size})}">More</a></td>
+        <td class="more"><a th:href="@{/page(page=${nextPage})}">More</a></td>
       </tr>
       </tbody>
     </table>

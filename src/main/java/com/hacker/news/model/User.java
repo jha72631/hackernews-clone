@@ -5,6 +5,8 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -28,10 +30,16 @@ public class User {
     public User() {
     }
 
-    public User(String userKarma, String about, List<String> submissions) {
-        this.userKarma = userKarma;
+    public User(String userName, String password,String about, String email) {
+        this.userName = userName;
+        this.password = password;
+        this.userKarma = "1";
+        this.createdAt = new Date().getTime();
         this.about = about;
-        this.submissions = submissions;
+        this.email = email;
+        this.submissions = new ArrayList<>();
+        this.upvotedSubmissions = new ArrayList<>();
+        this.favoriteSubmissions = new ArrayList<>();
     }
 
     public void removeFromUpvotedSubmissions(String postId) {

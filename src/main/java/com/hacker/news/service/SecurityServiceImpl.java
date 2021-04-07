@@ -6,7 +6,9 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SecurityServiceImpl implements SecurityService {
 
   private UserService userService;
@@ -30,7 +32,7 @@ public class SecurityServiceImpl implements SecurityService {
 
   @Override
   public User getUser() {
-    return userService.findByUsername(getUsername());
+    return userService.getUserByUserName(getUsername());
   }
 
   @Override

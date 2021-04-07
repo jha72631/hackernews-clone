@@ -8,8 +8,4 @@ public interface UserService {
     User getUserByUserId(String userId);
     User getUserByUserName(String userName);
     void saveUserSubmissions(String postId);
-
-    public User findByUsername(String username);
-
-    void save(User user);
 }

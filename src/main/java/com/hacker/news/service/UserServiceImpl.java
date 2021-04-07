@@ -9,12 +9,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    public UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public void createUser(User user) {
-
+        user.setPassword(SecurityConfiguration.passwordEncoder().encode(user.getPassword()));
+        System.out.println("insideService");
+        userRepository.saveUser(user);
     }
 
     @Override
@@ -29,29 +35,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByUserName(String userName) {
-        return null;
+        return userRepository.findOneByUserName(userName);
     }
 
     @Override
     public void saveUserSubmissions(String postId) {
 
-    }
-
-    private UserRepository userRepository;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
-    @Override
-    public User findByUsername(String username) {
-        return userRepository.findOneByUserName(username);
-    }
-
-    @Override
-    public void save(User user) {
-        user.setUserPassword(SecurityConfiguration.passwordEncoder().encode(user.getUserPassword()));
-        userRepository.saveUser(user);
     }
 }

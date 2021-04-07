@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Login</title>
+</head>
+<body>
+<th:block layout:fragment="content">
+  <table>
+    <form th:action="@{/login}" method="post">
+      <tr>
+        <td colspan="2"><strong>Login</strong></td>
+      </tr>
+      <tr>
+        <td><label for="login-username">username:</label></td>
+        <td><input type="text" name="username" id="login-username"></td>
+      </tr>
+      <tr>
+        <td><label for="login-password">password:</label></td>
+        <td><input type="password" name="password" id="login-password"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="submit" value="login"></td>
+      </tr>
+    </form>
+    <tr>
+      <td colspan="2"><a href="/forgot" class="text-underline">Forgot your password?</a></td>
+    </tr>
+    <form th:action="@{/user/create}">
+        <strong>Create Account</strong>
+        username:
+        <input type="text" name="username" id="username">
+        password:
+        <input type="password" name="password" id="password">
+        email:
+        <input type="email" name="email" id="email">
+        about:
+        <input type="text" name="about" id="about">
+        <input type="submit" value="create account">
+    </form>
+  </table>
+</th:block>
+</body>
+</html>
