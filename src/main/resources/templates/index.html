@@ -62,12 +62,12 @@
                th:style="${#lists.contains(votedPosts, post)} ? 'visibility: hidden'"><div class="votearrow"></div></a>
             <a href="/login" th:unless="${isLoggedIn}"><div class="votearrow"></div></a>
           </td>
-          <td th:if="${#strings.equals(post.postType, 'LINK')}">
-            <a target="_blank" th:href="@{${post.url}}" th:text="${post.title}"></a>
+          <td th:if="${#strings.equals(post.url, null)}">
+            <a th:href="@{'/post/'+${post.postId}}" th:text="${post.title}"></a>
             <span class="subtext">(<a th:href="@{/post(site=${post.author})}" th:text="${post.author}"></a>)</span>
           </td>
-          <td th:unless="${#strings.equals(post.postType, 'LINK')}">
-            <a th:href="@{'/post/'+${post.postId}}" th:text="${post.title}"></a>
+          <td th:unless="${#strings.equals(post.url, null)}">
+            <a target="_blank" th:href="${post.url}" th:text="${post.title}"></a>
           </td>
         </tr>
         <tr>

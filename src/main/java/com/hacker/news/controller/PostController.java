@@ -2,8 +2,11 @@ package com.hacker.news.controller;
 
 import com.hacker.news.dto.PostDto;
 import com.hacker.news.model.Post;
+import com.hacker.news.model.User;
+import com.hacker.news.security.UserPrincipal;
 import com.hacker.news.service.CommentService;
 import com.hacker.news.service.PostService;
+import com.hacker.news.service.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,10 +26,12 @@ public class PostController {
     public static final int PAGE_SIZE = 3;
     private final PostService postService;
     private final CommentService commentService;
+    private final UserService userService;
 
-    public PostController(PostService postService, CommentService commentService) {
+    public PostController(PostService postService, CommentService commentService, UserService userService) {
         this.postService = postService;
         this.commentService = commentService;
+        this.userService = userService;
     }
 
 
@@ -61,10 +66,11 @@ public class PostController {
         if (pageNo < posts.getTotalPages()) {
             model.addAttribute("nextPage", pageNo + 1);
         }
-        boolean isLoggedIn =  isLoggedIn();
+        boolean isLoggedIn =  userService.isLoggedIn();
         model.addAttribute("isLoggedIn", isLoggedIn);
         if (isLoggedIn) {
-            model.addAttribute("username", "Sanjay@gmail.com")
+            UserPrincipal currentUser = userService.currentUser();
+            model.addAttribute("username", currentUser.getUsername())
                     .addAttribute("votedPosts", new ArrayList<Post>());
         }
         return "index";
@@ -75,9 +81,5 @@ public class PostController {
         PostDto post = postService.fetchPost(id);
         model.addAttribute("post", post);
         return "post";
-    }
-
-    private boolean isLoggedIn() {
-        return false;
     }
 }

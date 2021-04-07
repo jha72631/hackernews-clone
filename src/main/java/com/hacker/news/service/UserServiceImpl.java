@@ -3,8 +3,13 @@ package com.hacker.news.service;
 import com.hacker.news.model.User;
 import com.hacker.news.repositories.UserRepository;
 import com.hacker.news.security.SecurityConfiguration;
+import com.hacker.news.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -41,5 +46,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveUserSubmissions(String postId) {
 
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return userRepository.getAllUsers();
+    }
+
+    @Override
+    public boolean isAuthorised() {
+        return false;
+    }
+
+    @Override
+    public boolean isLoggedIn() {
+        return (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserDetails);
+    }
+
+    @Override
+    public UserPrincipal currentUser() {
+        return  (UserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

@@ -2,8 +2,10 @@ package com.hacker.news.controller;
 
 import com.hacker.news.dto.PostDto;
 import com.hacker.news.model.Post;
+import com.hacker.news.model.User;
 import com.hacker.news.service.CommentService;
 import com.hacker.news.service.PostService;
+import com.hacker.news.service.UserService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,14 +17,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @RestController
 @RequestMapping("/api")
-public class PostRestController {
+public class ApiRestController {
 
     private final PostService postService;
     private final CommentService commentService;
+    private final UserService userService;
 
-    public PostRestController(PostService postService, CommentService commentService) {
+    public ApiRestController(PostService postService, CommentService commentService, UserService userService) {
         this.postService = postService;
         this.commentService = commentService;
+        this.userService = userService;
     }
 
 
@@ -56,5 +60,11 @@ public class PostRestController {
         PostDto post = postService.fetchPost(id);
         model.addAttribute("post", post);
         return "post";
+    }
+
+    @RequestMapping("/user")
+    public Object createUser(){
+        System.out.println(userService.isLoggedIn());
+        return userService.getAllUsers();
     }
 }

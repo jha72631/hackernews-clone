@@ -29,6 +29,7 @@ public class UserController {
     public String loginOrRegister(){
         return "login";
     }
+
     @RequestMapping(value = "/user/create")
     public String createUser(@RequestParam("username")String username,
                              @RequestParam("password")String password,
