@@ -56,6 +56,26 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public CommentDto fetchComments(String parentCommentID) {
+        CommentDto commentDto = new CommentDto();
+        commentDto.setComment(commentService.fetchCommentByCommentId(parentCommentID));
+
+        List<Comment> commentList = commentService.fetchCommentByParentCommentId(parentCommentID);
+        if(Objects.nonNull(commentList)) {
+            for(int i=0; i<commentList.size(); i++) {
+                Comment comment = commentList.get(i);
+                CommentDto childrenCommentDto = new CommentDto();
+                childrenCommentDto.setComment(comment);
+                commentDto.getCommentDtoList().add(childrenCommentDto);
+                //calling recursive function to traverse through depth  of hierarchy of comments
+                populateHierarchicalCommentDto(comment.getCommentId(), childrenCommentDto.getCommentDtoList());
+            }
+        }
+
+        return commentDto;
+    }
+
+    @Override
     public void deletePost(String postId) {
         Post post = postRepository.getPostById(postId);
         postRepository.deletePost(post);

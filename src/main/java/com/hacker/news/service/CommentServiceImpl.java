@@ -21,6 +21,7 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private UserService userService;
 
+    @Override
     public void createComment(Comment comment, String parentPostId, String parentCommentID, String parentType) {
         comment.setParentStoryId(parentPostId);
         comment.setParentCommentId(parentCommentID);
@@ -30,14 +31,17 @@ public class CommentServiceImpl implements CommentService {
         commentRepository.saveComment(comment);
     }
 
+    @Override
     public Comment fetchCommentByCommentId(String commentId) {
         return commentRepository.findCommentByCommentId(commentId);
     }
 
+    @Override
     public List<Comment> fetchCommentByParentCommentId(String parentCommentId) {
         return commentRepository.findCommentByParentCommentId(parentCommentId);
     }
 
+    @Override
     public List<Comment> fetchCommentByParentStoryId(String parentStoryId) {
         return commentRepository.findCommentByParentStoryId(parentStoryId);
     }

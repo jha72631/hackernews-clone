@@ -12,6 +12,7 @@ public class User {
     @Id
     private String userId;
     private String userName;
+    private String password;
     private String userKarma;
     private Long createdAt;
     private String about;
@@ -35,6 +36,14 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getUserName() {
