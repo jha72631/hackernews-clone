@@ -11,6 +11,10 @@ public interface UserRepository {
     User findByUserId(String userId);
     User findOneByUserName(String userName);
     List<User> findByName(String name);
-    User updateOneUser(User user);
+    User updateUserEmail(String userName, String email);
+    User updateUserAbout(String userName, String about);
+    User updateUserSubmissions(String userName, String postId, boolean isToBeAdded);
+    User updateUserUpvotedSubmissions(String userName, String postId, boolean isToBeAdded);
+    User updateUserFavoriteSubmissions(String userName, String postId, boolean isToBeAdded);
     void deleteUser(User user);
 }

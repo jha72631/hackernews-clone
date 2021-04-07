@@ -16,8 +16,8 @@ public class User {
     @Id
     private String userId;
     private String userName;
+    private String password;
     private String userKarma;
-    private String userPassword;
     private Long createdAt;
     private String about;
     private String email;

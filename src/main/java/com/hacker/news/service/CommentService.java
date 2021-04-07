@@ -10,6 +10,7 @@ public interface CommentService {
     List<Comment> fetchCommentByParentCommentId(String parentCommentId);
     List<Comment> fetchCommentByParentStoryId(String parentStoryId);
     List<Comment> fetchCommentByParentType(String parentType);
+    List<Comment> fetchCommentByParentTypeAndPostId(String parentType, String postId);
     List<Comment> fetchAllComments();
     void deleteComments(Comment comment);
 }

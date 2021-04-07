@@ -30,7 +30,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void createPost(Post post) {
-        System.out.println("inside Service");
         post.setCreatedAt(new Date().getTime());
         postRepository.savePost(post);
     }
@@ -45,7 +44,7 @@ public class PostServiceImpl implements PostService {
         PostDto postDto = new PostDto();
         postDto.setPost(postRepository.getPostById(postId));
 
-        List<Comment> commentList = commentService.fetchCommentByParentType("post");
+        List<Comment> commentList = commentService.fetchCommentByParentTypeAndPostId("post", postId);
         if(Objects.nonNull(commentList)) {
             for (int i=0;i<commentList.size();i++) {
                 Comment comment = commentList.get(i);
@@ -58,6 +57,26 @@ public class PostServiceImpl implements PostService {
         }
 
         return postDto;
+    }
+
+    @Override
+    public CommentDto fetchComments(String parentCommentID) {
+        CommentDto commentDto = new CommentDto();
+        commentDto.setComment(commentService.fetchCommentByCommentId(parentCommentID));
+
+        List<Comment> commentList = commentService.fetchCommentByParentCommentId(parentCommentID);
+        if(Objects.nonNull(commentList)) {
+            for(int i=0; i<commentList.size(); i++) {
+                Comment comment = commentList.get(i);
+                CommentDto childrenCommentDto = new CommentDto();
+                childrenCommentDto.setComment(comment);
+                commentDto.getCommentDtoList().add(childrenCommentDto);
+                //calling recursive function to traverse through depth  of hierarchy of comments
+                populateHierarchicalCommentDto(comment.getCommentId(), childrenCommentDto.getCommentDtoList());
+            }
+        }
+
+        return commentDto;
     }
 
     @Override

@@ -7,6 +7,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Repository
@@ -48,12 +49,91 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public User updateOneUser(User user) {
-        return null;
+    public User updateUserEmail(String userName, String email) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userName").is(userName));
+        User user = mongoTemplate.findOne(query, User.class);
+        user.setEmail(email);
+        mongoTemplate.save(user);
+        return user;
     }
 
     @Override
-    public void deleteUser(User user) {
+    public User updateUserAbout(String userName, String about) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userName").is(userName));
+        User user = mongoTemplate.findOne(query, User.class);
+        user.setAbout(about);
+        mongoTemplate.save(user);
+        return user;
+    }
 
+    @Override
+    public User updateUserSubmissions(String userName, String postId, boolean isToBeAdded) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userName").is(userName));
+        User user = mongoTemplate.findOne(query, User.class);
+        if(isToBeAdded) {
+            user.getSubmissions().add(postId);
+        } else {
+            List<String> listOfSubmissions = user.getSubmissions();
+            Iterator itr = listOfSubmissions.iterator();
+            while(itr.hasNext()) {
+                String submittedPostId = (String) itr.next();
+                if(submittedPostId.equals(postId)) {
+                    itr.remove();
+                }
+            }
+        }
+        mongoTemplate.save(user);
+        return user;
+    }
+
+    @Override
+    public User updateUserUpvotedSubmissions(String userName, String postId, boolean isToBeAdded) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userName").is(userName));
+        User user = mongoTemplate.findOne(query, User.class);
+        if(isToBeAdded) {
+            user.getUpvotedSubmissions().add(postId);
+        } else {
+            List<String> listOfUpvotedSubmissions = user.getUpvotedSubmissions();
+            Iterator itr = listOfUpvotedSubmissions.iterator();
+            while(itr.hasNext()) {
+                String upvotedPostId = (String) itr.next();
+                if(upvotedPostId.equals(postId)) {
+                    itr.remove();
+                }
+            }
+        }
+        mongoTemplate.save(user);
+        return user;
+    }
+
+    @Override
+    public User updateUserFavoriteSubmissions(String userName, String postId, boolean isToBeAdded) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userName").is(userName));
+        User user = mongoTemplate.findOne(query, User.class);
+        if(isToBeAdded) {
+            user.getFavoriteSubmissions().add(postId);
+        } else {
+            List<String> listOfFavoriteSubmissions = user.getFavoriteSubmissions();
+            Iterator itr = listOfFavoriteSubmissions.iterator();
+            while(itr.hasNext()) {
+                String favoritePostId = (String) itr.next();
+                if(favoritePostId.equals(postId)) {
+                    itr.remove();
+                }
+            }
+        }
+        mongoTemplate.save(user);
+        return null;
+    }
+
+
+    @Override
+    public void deleteUser(User user) {
+        mongoTemplate.remove(user);
     }
 }

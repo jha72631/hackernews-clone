@@ -62,6 +62,13 @@ public class CommentRepositoryImpl implements CommentRepository{
     }
 
     @Override
+    public List<Comment> fetchCommentsByParentTypeAndPostId(String parentType, String postId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("parentStoryId").is(postId).and("parentType").is(parentType));
+        return mongoTemplate.find(query, Comment.class);
+    }
+
+    @Override
     public List<Comment> findByAuthorName(String authorName) {
         Query query = new Query();
         query.addCriteria(Criteria.where("author").is(authorName));
