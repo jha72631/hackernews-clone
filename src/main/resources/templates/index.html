@@ -21,10 +21,10 @@
       <table class="pagetop">
         <thead>
         <tr>
-          <td class="top-logo"><a href="/about"><strong>HN</strong></a></td>
+          <td class="top-logo"><a href="/"><strong>HN</strong></a></td>
           <td class="top-nav">
             <nav>
-              <a href="/post">news</a>
+              <a href="/post/news">news</a>
               <span> | </span>
               <a href="/comment">comments</a>
               <span th:if="${isLoggedIn}"> | </span>
@@ -83,7 +83,7 @@
       </th:block>
       <tr th:if="${nextPage}">
         <td colspan="2"></td>
-        <td class="more"><a th:href="@{/page(page=${nextPage})}">More</a></td>
+        <td class="more"><a th:href="@{'/page?page='+${nextPage}+'&type='+${type}}">More</a></td>
       </tr>
       </tbody>
     </table>

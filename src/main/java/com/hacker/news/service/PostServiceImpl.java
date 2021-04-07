@@ -31,6 +31,8 @@ public class PostServiceImpl implements PostService {
     @Override
     public void createPost(Post post) {
         post.setCreatedAt(new Date().getTime());
+        post.setAuthor(userService.currentUser().getUsername());
+        post.setScore(1);
         postRepository.savePost(post);
     }
 

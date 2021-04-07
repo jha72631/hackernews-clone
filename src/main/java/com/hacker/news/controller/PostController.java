@@ -2,7 +2,6 @@ package com.hacker.news.controller;
 
 import com.hacker.news.dto.PostDto;
 import com.hacker.news.model.Post;
-import com.hacker.news.model.User;
 import com.hacker.news.security.UserPrincipal;
 import com.hacker.news.service.CommentService;
 import com.hacker.news.service.PostService;
@@ -13,10 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
 import java.util.ArrayList;
-import java.util.List;
-
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -24,6 +20,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class PostController {
 
     public static final int PAGE_SIZE = 3;
+    public static final int FIRST_PAGE = 1;
     private final PostService postService;
     private final CommentService commentService;
     private final UserService userService;
@@ -45,24 +42,31 @@ public class PostController {
     @RequestMapping(value = "/post", method = POST)
     public String create(@ModelAttribute("post") Post post) {
         postService.createPost(post);
-        return "redirect:/post";
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/", method = GET)
-    public String list(Model model) {
-        List<Post> posts = postService.fetchListOfPosts();
-        return findPaginated(1, model);
+    public String findAllPost(Model model) {
+        String type = "All";
+        return findPaginated(FIRST_PAGE, type ,model);
+    }
+
+    @RequestMapping(value = "/post/filter", method = GET)
+    public String findAllByFilter(@RequestParam("type") String type, Model model) {
+        return findPaginated(FIRST_PAGE, type,model);
     }
 
     @RequestMapping(value = "/page",method = GET)
     public String findPaginated(@RequestParam("page") int pageNo,
+                                @RequestParam(value = "type") String type,
                                 Model model) {
         String sortField =  "createdAt";
         String sortDirection= "asc";
         Page<Post> posts = postService.getAllPostPaginated(pageNo, PAGE_SIZE,sortField,sortDirection);
         model.addAttribute("posts", posts)
                 .addAttribute("page", pageNo)
-                .addAttribute("size", 3);
+                .addAttribute("size", 3)
+                .addAttribute("type",type);
         if (pageNo < posts.getTotalPages()) {
             model.addAttribute("nextPage", pageNo + 1);
         }
