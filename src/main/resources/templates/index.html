@@ -24,7 +24,13 @@
           <td class="top-logo"><a href="/"><strong>HN</strong></a></td>
           <td class="top-nav">
             <nav>
-              <a href="/post/news">news</a>
+              <a th:href="@{'/post/filter?type=News'}">news</a>
+              <span> | </span>
+              <a th:href="@{'/post/filter?type=Ask'}">ask</a>
+              <span> | </span>
+              <a th:href="@{'/post/filter?type=Job'}">job</a>
+              <span> | </span>
+              <a th:href="@{'/post/filter?type=Show'}">show</a>
               <span> | </span>
               <a href="/comment">comments</a>
               <span th:if="${isLoggedIn}"> | </span>
@@ -104,6 +110,3 @@
 <script src="/js/app.js" type="text/javascript"></script>
 </body>
 </html>
-
-
-

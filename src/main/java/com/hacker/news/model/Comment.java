@@ -19,11 +19,9 @@ public class Comment {
     public Comment() {
     }
 
-    public Comment(String parentId, String parentType, String text, Integer score) {
+    public Comment(String parentId, String parentType) {
         this.parentStoryId = parentId;
         this.parentType = parentType;
-        this.text = text;
-        this.score = score;
     }
 
     public String getCommentId() {

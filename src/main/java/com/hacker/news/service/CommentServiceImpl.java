@@ -12,22 +12,20 @@ import java.util.List;
 @Service
 public class CommentServiceImpl implements CommentService {
 
-    @Autowired
     private CommentRepository commentRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private UserService userService;
 
-    @Override
-    public void createComment(Comment comment, String parentPostId, String parentCommentID, String parentType) {
-        comment.setParentStoryId(parentPostId);
-        comment.setParentCommentId(parentCommentID);
-        comment.setCreatedAt(new Date().getTime());
-        comment.setParentType(parentType);
+    @Autowired
+    public CommentServiceImpl(CommentRepository commentRepository, UserService userService) {
+        this.commentRepository = commentRepository;
+        this.userService = userService;
+    }
 
+    @Override
+    public void createComment(Comment comment) {
+        comment.setCreatedAt(new Date().getTime());
+        comment.setScore(1);
+        comment.setAuthor(userService.currentUser().getUsername());
         commentRepository.saveComment(comment);
     }
 

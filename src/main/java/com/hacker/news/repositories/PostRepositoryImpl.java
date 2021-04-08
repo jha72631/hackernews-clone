@@ -47,8 +47,11 @@ public class PostRepositoryImpl implements PostRepository{
     }
 
     @Override
-    public Page<Post> getAllPostPaginated(Pageable pageable) {
+    public Page<Post> getAllPostPaginated(String postType,Pageable pageable) {
         Query query = new Query();
+        if(!postType.equals("All")){
+            query.addCriteria(Criteria.where("postType").is(postType));
+        }
         long count = this.mongoTemplate.count(query, Post.class);
 
         query.with(pageable);

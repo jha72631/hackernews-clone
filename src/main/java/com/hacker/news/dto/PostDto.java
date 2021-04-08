@@ -8,7 +8,7 @@ import java.util.List;
 public class PostDto {
     private Post post;
     private List<CommentDto> commentDtoList = new ArrayList<>();
-
+    boolean postIsVoted;
     public PostDto() {
     }
 

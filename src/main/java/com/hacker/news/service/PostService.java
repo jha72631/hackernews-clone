@@ -13,5 +13,5 @@ public interface PostService {
     PostDto fetchPost(String postId);
     CommentDto fetchComments(String parentCommentID);
     void deletePost(String postId);
-    Page<Post> getAllPostPaginated(int pageNo, int pageSize, String sortField, String sortDirection);
+    Page<Post> getAllPostPaginated(int pageNo, int pageSize, String sortField, String sortDirection,String postType);
 }

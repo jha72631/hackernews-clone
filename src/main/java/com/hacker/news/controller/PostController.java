@@ -2,6 +2,7 @@ package com.hacker.news.controller;
 
 import com.hacker.news.dto.PostDto;
 import com.hacker.news.model.Post;
+import com.hacker.news.model.Comment;
 import com.hacker.news.security.UserPrincipal;
 import com.hacker.news.service.CommentService;
 import com.hacker.news.service.PostService;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.ArrayList;
@@ -58,18 +60,33 @@ public class PostController {
 
     @RequestMapping(value = "/page",method = GET)
     public String findPaginated(@RequestParam("page") int pageNo,
-                                @RequestParam(value = "type") String type,
+                                @RequestParam("type") String postType,
                                 Model model) {
         String sortField =  "createdAt";
         String sortDirection= "asc";
-        Page<Post> posts = postService.getAllPostPaginated(pageNo, PAGE_SIZE,sortField,sortDirection);
+        Page<Post> posts = postService.getAllPostPaginated(pageNo, PAGE_SIZE,sortField,sortDirection,postType);
         model.addAttribute("posts", posts)
                 .addAttribute("page", pageNo)
                 .addAttribute("size", 3)
-                .addAttribute("type",type);
+                .addAttribute("type",postType);
         if (pageNo < posts.getTotalPages()) {
             model.addAttribute("nextPage", pageNo + 1);
         }
+        isLoggedIn(model);
+        return "index";
+    }
+
+    @RequestMapping(value = "/post/{id}", method = GET)
+    public String read(@PathVariable("id") String id, Model model) {
+        PostDto postDto = postService.fetchPost(id);
+        isLoggedIn(model);
+        model.addAttribute("post", postDto.getPost())
+                .addAttribute("postIsVoted", true)
+                .addAttribute("createComment",new Comment(id,"Post"));
+        return "viewpost";
+    }
+
+    void isLoggedIn(Model model){
         boolean isLoggedIn =  userService.isLoggedIn();
         model.addAttribute("isLoggedIn", isLoggedIn);
         if (isLoggedIn) {
@@ -77,13 +94,5 @@ public class PostController {
             model.addAttribute("username", currentUser.getUsername())
                     .addAttribute("votedPosts", new ArrayList<Post>());
         }
-        return "index";
-    }
-
-    @RequestMapping(value = "/post", method = GET)
-    public String read(@RequestParam("id") String id, Model model) {
-        PostDto post = postService.fetchPost(id);
-        model.addAttribute("post", post);
-        return "post";
     }
 }

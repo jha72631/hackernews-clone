@@ -1,6 +1,7 @@
 package com.hacker.news.controller;
 
 import com.hacker.news.dto.PostDto;
+import com.hacker.news.model.Comment;
 import com.hacker.news.model.Post;
 import com.hacker.news.model.User;
 import com.hacker.news.service.CommentService;
@@ -29,42 +30,20 @@ public class ApiRestController {
         this.userService = userService;
     }
 
-
-    @RequestMapping(value = "/post/new", method = GET)
-    public String editor(Model model) {
-        Post post = new Post();
-        model.addAttribute("post",post);
-        return "post-editor";
-    }
-
-    @RequestMapping(value = "/post", method = POST)
-    public String create(@RequestParam("new")int create) {
-        if(create==1) {
-            System.out.println(create);
-            //Post post = new Post("News HN", "Sanjay", "news in demand", "https://learn.mountblue.io/dashboard", "latest news");
-            //postService.createPost(post);
-        }
-
-        return "redirect:/post";
-    }
-
-    @RequestMapping(value = "/", method = GET)
+    @RequestMapping(value = "/posts", method = GET)
     public Object list(Model model) {
         List<Post> listOfPost= postService.fetchListOfPosts();
-        model.addAttribute("allPost",listOfPost);
         return listOfPost;
     }
 
-    @RequestMapping(value = "/post", method = GET)
-    public String read(@RequestParam("id") String id, Model model) {
-        PostDto post = postService.fetchPost(id);
-        model.addAttribute("post", post);
-        return "post";
+    @RequestMapping(value = "/comments", method = GET)
+    public Object listComment(Model model) {
+        List<Comment> listOfComment= commentService.fetchAllComments();
+        return listOfComment;
     }
 
-    @RequestMapping("/user")
+    @RequestMapping("/users")
     public Object createUser(){
-        System.out.println(userService.isLoggedIn());
         return userService.getAllUsers();
     }
 }

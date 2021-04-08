@@ -19,14 +19,16 @@ import java.util.Objects;
 @Service
 public class PostServiceImpl implements PostService {
 
-    @Autowired
     private PostRepository postRepository;
-
-    @Autowired
     private CommentService commentService;
+    private UserService userService;
 
     @Autowired
-    private UserService userService;
+    public PostServiceImpl(PostRepository postRepository, CommentService commentService, UserService userService) {
+        this.postRepository = postRepository;
+        this.commentService = commentService;
+        this.userService = userService;
+    }
 
     @Override
     public void createPost(Post post) {
@@ -48,8 +50,7 @@ public class PostServiceImpl implements PostService {
 
         List<Comment> commentList = commentService.fetchCommentByParentTypeAndPostId("post", postId);
         if(Objects.nonNull(commentList)) {
-            for (int i=0;i<commentList.size();i++) {
-                Comment comment = commentList.get(i);
+            for (Comment comment : commentList) {
                 CommentDto commentDto = new CommentDto();
                 commentDto.setComment(comment);
                 postDto.getCommentDto().add(commentDto);
@@ -100,10 +101,10 @@ public class PostServiceImpl implements PostService {
         }
     }
 
-    public Page<Post> getAllPostPaginated(int pageNo, int pageSize, String sortField, String sortDirection) {
+    public Page<Post> getAllPostPaginated(int pageNo, int pageSize, String sortField, String sortDirection,String postType) {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() : Sort.by(sortField).descending();
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return postRepository.getAllPostPaginated(pageable);
+        return postRepository.getAllPostPaginated(postType,pageable);
     }
 
 }

@@ -11,7 +11,7 @@ public interface PostRepository {
     List<Post> getNewPost();
     Post savePost(Post post);
     List<Post> getAllPost();
-    Page<Post> getAllPostPaginated(Pageable pageable);
+    Page<Post> getAllPostPaginated(String postType,Pageable pageable);
     List<Post> findByName(String authorName);
     Post updateOnePost(Post post);
     void deletePost(Post post);
