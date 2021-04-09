@@ -31,6 +31,7 @@ public class Post {
         this.url = url;
         this.textContent = textContent;
         this.score = 1;
+        this.childCount=0;
     }
 
     public String getPostId() {
