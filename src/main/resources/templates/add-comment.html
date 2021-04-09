@@ -47,7 +47,7 @@
                         </form>
                     </td>
                     <td class="top-status" th:unless="${isLoggedIn}">
-                        <a href="/user">login</a>
+                        <a href="/login">login</a>
                     </td>
                 </tr>
                 </thead>
@@ -60,35 +60,30 @@
             <tbody>
             <tr>
                 <td>
-                    <table th:if="${post}">
+                    <table th:if="${comment}">
                         <tbody>
                         <tr>
                             <td class="vote">
-                                <a th:if="${isLoggedIn}" th:id="'up_post_'+${post.postId}" onclick="return vote(this);" href="javascript:void(0);"
-                                   th:style="${postIsVoted} ? 'visibility: hidden'"><div class="votearrow"></div></a>
+                                <a th:if="${isLoggedIn}" th:id="'up_post_'+${comment.commentId}" onclick="return vote(this);" href="javascript:void(0);"
+                                   th:style="${commnetIsVoted} ? 'visibility: hidden'"><div class="votearrow"></div></a>
                                 <a th:unless="${isLoggedIn}" href="/login"><div class="votearrow"></div></a>
                             </td>
-                            <td th:if="${#strings.equals(post.url, null)}">
-                                <a th:href="@{'/post/'+${post.postId}}" th:text="${post.title}"></a>
-                                <span class="subtext">(<a th:href="@{/post(site=${post.author})}" th:text="${post.author}"></a>)</span>
-                            </td>
-                            <td th:unless="${#strings.equals(post.url, null)}">
-                                <a target="_blank" th:href="${post.url}" th:text="${post.title}"></a>
+                            <td>
+                                <a th:text="${comment.text}"></a>
                             </td>
                         </tr>
                         <tr>
                             <td></td>
-                            <td class="subtext"><span th:text="${post.score}"></span> points by <a th:href="@{'/user/' + ${post.author}}" th:text="${post.author}"></a>
-                                <time th:datetime="${post.createdAt}" th:text="${#dates.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></time>
-                                <span> | </span>
-                                <a th:href="@{'/post/' + ${post.postId}}" th:text="${post.score} > 0 ? ${post.score} + ' comments' : 'discuss'"></a>
+                            <td class="subtext"><span th:text="${comment.score}"></span> points by <a th:href="@{'/user/' + ${comment.author}}" th:text="${comment.author}"></a>
+                                <time th:datetime="${comment.createdAt}" th:text="${#dates.format(comment.createdAt, 'yyyy-MM-dd HH:mm')}"></time>
                             </td>
                         <tr>
                             <td></td>
                             <td>
-                                <form th:action="@{/commentOnPost}" th:object="${createComment}" method="post">
+                                <form th:action="@{/commentOnComment}" th:object="${createComment}" method="post">
                                     <input type="hidden" th:field="*{parentStoryId}">
                                     <input type="hidden" th:field="*{parentType}">
+                                    <input type="hidden" th:field="*{parentCommentId}">
                                     <textarea th:field="*{text}" rows="6" cols="60"></textarea>
                                     <br>
                                     <input type="submit" value="add comment">

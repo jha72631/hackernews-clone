@@ -8,12 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+    public static final String ROLE = "ROLE_AUTHOR";
     private UserRepository userRepository;
 
     @Autowired
@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createUser(User user) {
         user.setPassword(SecurityConfiguration.passwordEncoder().encode(user.getPassword()));
-        System.out.println("insideService");
+        user.setRole(ROLE);
         userRepository.saveUser(user);
     }
 
@@ -108,7 +108,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isLoggedIn() {
-        System.out.println(getClass().toString());
         return (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserDetails);
     }
 

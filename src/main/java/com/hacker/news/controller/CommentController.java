@@ -46,8 +46,19 @@ public class CommentController {
     @RequestMapping(value = "/comment/{commentId}",method = GET)
     public String commentOnComment(@PathVariable("commentId") String commentId, Model model){
         Comment comment = commentService.fetchCommentByCommentId(commentId);
-        model.addAttribute("comment",comment);
+        isLoggedIn(model);
+        Comment createComment = new Comment(comment.getParentStoryId(),commentId,"Comment");
+        model.addAttribute("comment",comment)
+                .addAttribute("commentIsVoted", false)
+                .addAttribute("createComment", createComment);
         return "add-comment";
+    }
+
+    @RequestMapping(value = "/commentOnComment",method = POST)
+    public String saveCommentOnComment(@ModelAttribute("createComment") Comment comment){
+       String postId = comment.getParentStoryId();
+       commentService.createComment(comment);
+        return "redirect:/post/"+postId;
     }
 
     void isLoggedIn(Model model){

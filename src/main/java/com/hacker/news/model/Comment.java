@@ -26,6 +26,12 @@ public class Comment {
         this.parentType = parentType;
     }
 
+    public Comment(String parentStoryId, String parentCommentId, String parentType) {
+        this.parentStoryId = parentStoryId;
+        this.parentCommentId = parentCommentId;
+        this.parentType = parentType;
+    }
+
     public String getCommentId() {
         return commentId;
     }

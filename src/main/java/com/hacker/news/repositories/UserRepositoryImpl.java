@@ -6,14 +6,19 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
 
-    @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    public UserRepositoryImpl(MongoTemplate mongoTemplate) {
+        this.mongoTemplate = mongoTemplate;
+    }
 
     @Override
     public User saveUser(User user) {
@@ -136,6 +141,9 @@ public class UserRepositoryImpl implements UserRepository {
         query.addCriteria(Criteria.where("userName").is(userName));
         User user = mongoTemplate.findOne(query, User.class);
         if(isToBeAdded) {
+            if (user.getCommentSubmissions()==null){
+                user.setCommentSubmissions(new ArrayList<String>());
+            }
             user.getCommentSubmissions().add(commentId);
         } else {
             List<String> listOfCommentSubmissions = user.getCommentSubmissions();

@@ -89,8 +89,6 @@ public class PostController {
 
     void isLoggedIn(Model model){
         boolean isLoggedIn =  userService.isLoggedIn();
-        System.out.println(getClass().toString());
-        System.out.println(isLoggedIn);
         model.addAttribute("isLoggedIn", isLoggedIn);
         if (isLoggedIn) {
             UserPrincipal currentUser = userService.currentUser();

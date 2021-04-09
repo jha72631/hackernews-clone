@@ -20,11 +20,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         this.userPrincipalDetailService = userPrincipalDetailService;
     }
 
-    @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
@@ -34,8 +29,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/post","/post/new","/post/*","/")
-                .permitAll()
+                .antMatchers("/post/new","/commentOnPost","/comment/*","commentOnComment","/post","/user/self").hasRole("AUTHOR")
+                .anyRequest().permitAll()
                 .and()
                 .formLogin()
                 .loginPage("/login");
@@ -47,5 +42,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
         daoAuthenticationProvider.setUserDetailsService(this.userPrincipalDetailService);
         return daoAuthenticationProvider;
+    }
+
+    @Bean
+    public static PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }

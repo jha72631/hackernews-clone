@@ -105,8 +105,7 @@
             </td>
         </tr>
         <tr>
-        <tr>
-            <table border="0" cellpadding="0" cellspacing="0" class="wrapper">
+            <table border="0" cellpadding="0" cellspacing="0" class="wrapper" th:fragment="commentFrag (comments, isLoggedIn, votedComments)">
                 <tbody >
                 <tr th:each="comment : ${comments}">
                     <td>
@@ -136,8 +135,7 @@
                                         </tr>
                                         <tr th:unless="${#lists.isEmpty(comment.childDto)}">
                                             <td>
-                                            </td>
-                                            <td>
+                                                <div th:replace=":: commentFrag (${comment.childDto}, ${isLoggedIn}, ${votedComments})"></div>
                                             </td>
                                         </tr>
                                         </tbody>
@@ -149,8 +147,8 @@
                     </td>
                 </tr>
                 </tbody>
+            </table>
         </tr>
-        </tbody>
     </table>
 </th:block>
     <table border="0" cellpadding="0" cellspacing="0" class="wrapper">
