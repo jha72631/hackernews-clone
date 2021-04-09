@@ -1,5 +1,6 @@
 package com.hacker.news.service;
 
+import com.hacker.news.dto.CommentDto;
 import com.hacker.news.model.Comment;
 import com.hacker.news.repositories.CommentRepository;
 import com.hacker.news.repositories.UserRepository;

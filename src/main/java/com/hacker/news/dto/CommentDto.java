@@ -1,13 +1,15 @@
 package com.hacker.news.dto;
 
 import com.hacker.news.model.Comment;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 public class CommentDto {
     private Comment comment;
-    private List<CommentDto> commentDtoList = new ArrayList<>();
+    private List<CommentDto> childDto = new ArrayList<>();
 
     public CommentDto() {
     }
@@ -20,11 +22,11 @@ public class CommentDto {
         this.comment = comment;
     }
 
-    public List<CommentDto> getCommentDtoList() {
-        return commentDtoList;
+    public List<CommentDto> getChildDto() {
+        return childDto;
     }
 
     public void setCommentDto(CommentDto commentDto) {
-        this.commentDtoList.add(commentDto);
+        this.childDto.add(commentDto);
     }
 }

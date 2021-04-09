@@ -1,5 +1,6 @@
 package com.hacker.news.controller;
 
+import com.hacker.news.dto.CommentDto;
 import com.hacker.news.dto.PostDto;
 import com.hacker.news.model.Comment;
 import com.hacker.news.model.Post;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
 import java.util.List;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -34,6 +37,16 @@ public class ApiRestController {
     public Object list(Model model) {
         List<Post> listOfPost= postService.fetchListOfPosts();
         return listOfPost;
+    }
+
+    @RequestMapping(value = "/post/comments", method = GET)
+    public Object listCommentsOnPost(@RequestParam("postId") String postId, Model model) {
+        PostDto postDto = postService.fetchPost(postId);
+        List<CommentDto> commentDtoList = postDto.getCommentDto();
+        List<Object> objects = new ArrayList<>();
+        objects.add(postDto);
+        objects.add(commentDtoList);
+        return commentDtoList;
     }
 
     @RequestMapping(value = "/comments", method = GET)

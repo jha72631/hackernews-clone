@@ -108,11 +108,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean isLoggedIn() {
+        System.out.println(getClass().toString());
         return (SecurityContextHolder.getContext().getAuthentication().getPrincipal() instanceof UserDetails);
     }
 
     @Override
     public UserPrincipal currentUser() {
-        return  (UserPrincipal)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+          return (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

@@ -8,6 +8,7 @@ import com.hacker.news.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -40,6 +41,13 @@ public class CommentController {
         isLoggedIn(model);
         model.addAttribute("comments",comments);
         return "comment-list";
+    }
+
+    @RequestMapping(value = "/comment/{commentId}",method = GET)
+    public String commentOnComment(@PathVariable("commentId") String commentId, Model model){
+        Comment comment = commentService.fetchCommentByCommentId(commentId);
+        model.addAttribute("comment",comment);
+        return "add-comment";
     }
 
     void isLoggedIn(Model model){

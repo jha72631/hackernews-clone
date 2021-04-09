@@ -37,7 +37,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/post","/post/new","/post/*","/")
                 .permitAll()
                 .and()
-                .formLogin();
+                .formLogin()
+                .loginPage("/login");
     }
 
     @Bean

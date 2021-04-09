@@ -31,11 +31,13 @@
               <span> | </span>
               <a th:href="@{'/post/filter?type=Show'}">show</a>
               <span> | </span>
-              <a href="/comment">comments</a>
+              <a th:href="@{'/comment'}">comments</a>
               <span th:if="${isLoggedIn}"> | </span>
               <a href="/comment?self=true" th:if="${isLoggedIn}">threads</a>
               <span> | </span>
               <a href="/post/new">submit</a>
+              <span> | </span>
+              <a href="/users">users</a>
             </nav>
           </td>
           <td class="top-status" th:if="${isLoggedIn}">
@@ -46,7 +48,7 @@
             </form>
           </td>
           <td class="top-status" th:unless="${isLoggedIn}">
-            <a href="/user">login</a>
+            <a href="/login">login</a>
           </td>
         </tr>
         </thead>
@@ -64,7 +66,7 @@
           <td th:unless="${page}"></td>
           <td class="vote">
             <a th:if="${isLoggedIn}" th:id="'up_post_' + ${post.postId}" onclick="return vote(this);" href="javascript:void(0);"
-               th:style="${#lists.contains(votedPosts, post)} ? 'visibility: hidden'"><div class="votearrow"></div></a>
+               th:style="${#lists.contains(votedPosts, post.postId)} ? 'visibility: hidden'"><div class="votearrow"></div></a>
             <a href="/login" th:unless="${isLoggedIn}"><div class="votearrow"></div></a>
           </td>
           <td th:if="${#strings.equals(post.url, null)}">

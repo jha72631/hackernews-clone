@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -49,14 +50,14 @@ public class PostServiceImpl implements PostService {
         PostDto postDto = new PostDto();
         postDto.setPost(postRepository.getPostById(postId));
 
-        List<Comment> commentList = commentService.fetchCommentByParentTypeAndPostId("post", postId);
+        List<Comment> commentList = commentService.fetchCommentByParentTypeAndPostId("Post", postId);
         if(Objects.nonNull(commentList)) {
             for (Comment comment : commentList) {
                 CommentDto commentDto = new CommentDto();
                 commentDto.setComment(comment);
                 postDto.getCommentDto().add(commentDto);
                 //calling recursive function to traverse through depth  of hierarchy of comments
-                populateHierarchicalCommentDto(comment.getCommentId(), commentDto.getCommentDtoList());
+                populateHierarchicalCommentDto(comment.getCommentId(), commentDto.getChildDto());
             }
         }
 
@@ -74,9 +75,9 @@ public class PostServiceImpl implements PostService {
                 Comment comment = commentList.get(i);
                 CommentDto childrenCommentDto = new CommentDto();
                 childrenCommentDto.setComment(comment);
-                commentDto.getCommentDtoList().add(childrenCommentDto);
+                commentDto.getChildDto().add(childrenCommentDto);
                 //calling recursive function to traverse through depth  of hierarchy of comments
-                populateHierarchicalCommentDto(comment.getCommentId(), childrenCommentDto.getCommentDtoList());
+                populateHierarchicalCommentDto(comment.getCommentId(), childrenCommentDto.getChildDto());
             }
         }
 
@@ -105,7 +106,7 @@ public class PostServiceImpl implements PostService {
                 commentDto.setComment(comment);
                 commentDtoList.add(commentDto);
                 //calling function recursively
-                populateHierarchicalCommentDto(comment.getCommentId(), commentDto.getCommentDtoList());
+                populateHierarchicalCommentDto(comment.getCommentId(), commentDto.getChildDto());
             }
         }
     }

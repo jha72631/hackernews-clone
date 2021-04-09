@@ -1,10 +1,12 @@
 package com.hacker.news.dto;
 
 import com.hacker.news.model.Post;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@ToString
 public class PostDto {
     private Post post;
     private List<CommentDto> commentDtoList = new ArrayList<>();

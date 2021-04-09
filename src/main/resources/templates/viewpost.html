@@ -104,6 +104,52 @@
                 </table>
             </td>
         </tr>
+        <tr>
+        <tr>
+            <table border="0" cellpadding="0" cellspacing="0" class="wrapper">
+                <tbody >
+                <tr th:each="comment : ${comments}">
+                    <td>
+                        <table>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <a th:if="${isLoggedIn}" th:id="'up_comment_' + ${comment.comment.commentId}" onclick="return vote(this);" href="javascript:void(0);"
+                                       th:style="${#lists.contains(votedComments, comment.comment.commentId)} ? 'visibility: hidden'"><div class="votearrow"></div></a>
+                                    <a th:unless="${isLoggedIn}" href="/login"><div class="votearrow"></div></a>
+                                </td>
+                                <td class="subtext"><a th:href="@{'/user/'+${comment.comment.author}}" th:text="${comment.comment.author}"></a>
+                                    <time th:datetime="${comment.comment.createdAt}" th:text="${#dates.format(comment.comment.createdAt, 'yyyy-MM-dd HH:mm')}"></time>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <td colspan="2" th:text="${comment.comment.text}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="reply"><a th:href="@{'/comment/' + ${comment.comment.commentId}}">reply</a></td>
+                                            <td></td>
+                                        </tr>
+                                        <tr th:unless="${#lists.isEmpty(comment.childDto)}">
+                                            <td>
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>
+                </tbody>
+        </tr>
         </tbody>
     </table>
 </th:block>

@@ -82,16 +82,21 @@ public class PostController {
         isLoggedIn(model);
         model.addAttribute("post", postDto.getPost())
                 .addAttribute("postIsVoted", true)
-                .addAttribute("createComment",new Comment(id,"Post"));
+                .addAttribute("createComment",new Comment(id,"Post"))
+                .addAttribute("comments",postDto.getCommentDto());
         return "viewpost";
     }
 
     void isLoggedIn(Model model){
         boolean isLoggedIn =  userService.isLoggedIn();
+        System.out.println(getClass().toString());
+        System.out.println(isLoggedIn);
         model.addAttribute("isLoggedIn", isLoggedIn);
         if (isLoggedIn) {
             UserPrincipal currentUser = userService.currentUser();
             model.addAttribute("username", currentUser.getUsername())
+                    .addAttribute("votedComments",userService
+                            .getListOfUpvotedSubmission(userService.currentUser().getUsername()))
                     .addAttribute("votedPosts", new ArrayList<Post>());
         }
     }
