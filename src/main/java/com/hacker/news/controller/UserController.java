@@ -54,13 +54,24 @@ public class UserController {
 
     @RequestMapping(value = "/user/{user}", method = GET)
     public String getUserDetails(@PathVariable("user") String user, Model model){
+        isLoggedIn(model);
         model.addAttribute("user",userService.getUserByUserName(user));
         return "user";
     }
 
     @RequestMapping(value = "/user/self",method = GET)
-    public String getSelfDetails(@PathVariable("user") String user, Model model){
-        model.addAttribute("user",userService.getUserByUserName(user));
+    public String getSelfDetails(Model model){
+        isLoggedIn(model);
+        model.addAttribute("user",userService.getUserByUserName(userService.currentUser().getUsername()));
         return "user";
+    }
+
+    void isLoggedIn(Model model){
+        boolean isLoggedIn =  userService.isLoggedIn();
+        model.addAttribute("isLoggedIn", isLoggedIn);
+        if (isLoggedIn) {
+            UserPrincipal currentUser = userService.currentUser();
+            model.addAttribute("username", currentUser.getUsername());
+        }
     }
 }

@@ -122,9 +122,9 @@ public class PostController {
             UserPrincipal currentUser = userService.currentUser();
             model.addAttribute("username", currentUser.getUsername())
                     .addAttribute("votedComments",userService
-                            .getListOfUpVotedSubmission(currentUser.getUsername()))
+                            .getListOfUpVotedCommentSubmission(currentUser.getUsername()))
                     .addAttribute("votedPosts", userService
-                            .getListOfUpVotedCommentSubmission(currentUser.getUsername()));
+                    .getListOfUpVotedSubmission(currentUser.getUsername()));
         }
     }
 }
