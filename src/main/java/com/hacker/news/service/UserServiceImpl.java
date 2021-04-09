@@ -44,13 +44,61 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void saveUserSubmissions(String postId) {
-
+    public List<User> getAllUsers() {
+        return userRepository.getAllUsers();
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.getAllUsers();
+    public User updateUserEmail(String userName, String email) {
+        return userRepository.updateUserEmail(userName, email);
+    }
+
+    @Override
+    public User updateUserAbout(String userName, String about) {
+        return userRepository.updateUserAbout(userName, about);
+    }
+
+    @Override
+    public User updateUserSubmissions(String userName, String postId, boolean isToBeAdded) {
+        return userRepository.updateUserSubmissions(userName, postId, isToBeAdded);
+    }
+
+    @Override
+    public User updateUserUpvotedSubmissions(String userName, String postId, boolean isToBeAdded) {
+        return userRepository.updateUserUpvotedSubmissions(userName, postId, isToBeAdded);
+    }
+
+    @Override
+    public User updateUserUpvotedCommentSubmissions(String userName, String commentId, boolean isToBeAdded) {
+        return userRepository.updateUserUpvotedCommentSubmissions(userName, commentId, isToBeAdded);
+    }
+
+    @Override
+    public User updateUserCommentSubmissions(String userName, String commentId, boolean isToBeAdded) {
+        return userRepository.updateUserCommentSubmissions(userName, commentId, isToBeAdded);
+    }
+
+    @Override
+    public User updateUserFavoriteSubmissions(String userName, String postId, boolean isToBeAdded) {
+        return userRepository.updateUserUpvotedSubmissions(userName, postId, isToBeAdded);
+    }
+
+    @Override
+    public List<String> getListOfUsersSubmission(String userName) {
+        User user = userRepository.findOneByUserName(userName);
+        return user.getSubmissions();
+    }
+
+    @Override
+    public List<String> getListOfUpvotedSubmission(String userName) {
+        User user = userRepository.findOneByUserName(userName);
+        return user.getUpvotedSubmissions();
+    }
+
+    @Override
+    public List<String> getListOfFavoriteSubmission(String userName) {
+        User user = userRepository.findOneByUserName(userName);
+        return user.getFavoriteSubmissions();
     }
 
     @Override

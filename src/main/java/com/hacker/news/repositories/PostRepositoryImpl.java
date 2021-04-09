@@ -67,6 +67,16 @@ public class PostRepositoryImpl implements PostRepository{
     }
 
     @Override
+    public void updatePostScore(String postId, boolean isToBeAdded) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("postId").is(postId));
+        Post post = mongoTemplate.findOne(query, Post.class);
+        if(isToBeAdded)post.setScore(post.getScore() + 1);
+        else post.setScore(post.getScore() -1);
+        mongoTemplate.save(post);
+    }
+
+    @Override
     public Post updateOnePost(Post post) {
         return null;
     }

@@ -13,6 +13,7 @@ public interface PostRepository {
     List<Post> getAllPost();
     Page<Post> getAllPostPaginated(String postType,Pageable pageable);
     List<Post> findByName(String authorName);
+    void updatePostScore(String postId, boolean isToBeAdded);
     Post updateOnePost(Post post);
     void deletePost(Post post);
 }
