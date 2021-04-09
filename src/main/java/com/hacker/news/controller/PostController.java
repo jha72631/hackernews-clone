@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @Controller
@@ -79,7 +77,7 @@ public class PostController {
     }
 
     @RequestMapping(value = "/post/{id}", method = GET)
-    public String read(@PathVariable("id") String id, Model model) {
+    public String viewPost(@PathVariable("id") String id, Model model) {
         PostDto postDto = postService.fetchPost(id);
         isLoggedIn(model);
         model.addAttribute("post", postDto.getPost())
@@ -91,15 +89,29 @@ public class PostController {
 
     @RequestMapping(value = "/post/downVote/page", method = GET)
     public String downVotePost(@RequestParam("page") int page, @RequestParam("type") String type,
-                             @RequestParam("postId") String postId, Model model){
-        postService.updatePostScoreAndUserUpvotedSubmission(userService.currentUser().getUsername(),postId,false);
+                             @RequestParam("postId") String id, Model model){
+        if(type.equals("comment")){
+            commentService.updateCommentScoreAndUpvotedCommentSubmissions(userService.currentUser().getUsername(),id,false);
+            return viewPost(commentService.fetchCommentByCommentId(id).getParentStoryId(),model);
+        }else if(type.equals("self")){
+            postService.updatePostScoreAndUserUpvotedSubmission(userService.currentUser().getUsername(),id,false);
+            return viewPost(id, model);
+        }
+        postService.updatePostScoreAndUserUpvotedSubmission(userService.currentUser().getUsername(),id,false);
         return findPaginated(page,type,model);
     }
 
     @RequestMapping(value = "/post/upVote/page", method = GET)
     public String upVotePost(@RequestParam("page") int page, @RequestParam("type") String type,
-                             @RequestParam("postId") String postId, Model model){
-        postService.updatePostScoreAndUserUpvotedSubmission(userService.currentUser().getUsername(),postId,true);
+                             @RequestParam("postId") String id, Model model){
+        if(type.equals("comment")){
+            commentService.updateCommentScoreAndUpvotedCommentSubmissions(userService.currentUser().getUsername(),id,true);
+            return viewPost(commentService.fetchCommentByCommentId(id).getParentStoryId(),model);
+        }else if(type.equals("self")){
+            postService.updatePostScoreAndUserUpvotedSubmission(userService.currentUser().getUsername(),id,true);
+            return viewPost(id, model);
+        }
+        postService.updatePostScoreAndUserUpvotedSubmission(userService.currentUser().getUsername(),id,true);
         return findPaginated(page,type,model);
     }
 
@@ -110,9 +122,9 @@ public class PostController {
             UserPrincipal currentUser = userService.currentUser();
             model.addAttribute("username", currentUser.getUsername())
                     .addAttribute("votedComments",userService
-                            .getListOfUpvotedSubmission(currentUser.getUsername()))
+                            .getListOfUpVotedSubmission(currentUser.getUsername()))
                     .addAttribute("votedPosts", userService
-                            .getListOfUpvotedSubmission(currentUser.getUsername()));
+                            .getListOfUpVotedCommentSubmission(currentUser.getUsername()));
         }
     }
 }

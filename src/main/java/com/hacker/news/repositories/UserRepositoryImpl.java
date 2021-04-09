@@ -99,9 +99,9 @@ public class UserRepositoryImpl implements UserRepository {
         query.addCriteria(Criteria.where("userName").is(userName));
         User user = mongoTemplate.findOne(query, User.class);
         if(isToBeAdded) {
-            user.getUpvotedSubmissions().add(postId);
+            user.getUpVotedSubmissions().add(postId);
         } else {
-            List<String> listOfUpvotedSubmissions = user.getUpvotedSubmissions();
+            List<String> listOfUpvotedSubmissions = user.getUpVotedSubmissions();
             Iterator itr = listOfUpvotedSubmissions.iterator();
             while(itr.hasNext()) {
                 String upvotedPostId = (String) itr.next();
@@ -120,9 +120,9 @@ public class UserRepositoryImpl implements UserRepository {
         query.addCriteria(Criteria.where("userName").is(userName));
         User user = mongoTemplate.findOne(query, User.class);
         if(isToBeAdded) {
-            user.getUpvotedCommentSubmissions().add(commentId);
+            user.getUpVotedCommentSubmissions().add(commentId);
         } else {
-            List<String> listOfUpvotedCommentSubmissions = user.getUpvotedCommentSubmissions();
+            List<String> listOfUpvotedCommentSubmissions = user.getUpVotedCommentSubmissions();
             Iterator itr = listOfUpvotedCommentSubmissions.iterator();
             while(itr.hasNext()) {
                 String upvotedCommentId = (String) itr.next();

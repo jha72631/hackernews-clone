@@ -22,9 +22,9 @@ public class User {
     private String email;
     private String role;
     private List<String> submissions;
-    private List<String> upvotedSubmissions;
+    private List<String> upVotedSubmissions;
     private List<String> commentSubmissions;
-    private List<String> upvotedCommentSubmissions;
+    private List<String> upVotedCommentSubmissions;
     private List<String> favoriteSubmissions;
     private String permissions = "";
 
@@ -34,16 +34,17 @@ public class User {
         this.userKarma = 1;
         this.createdAt = new Date().getTime();
         this.email = email;
+        this.upVotedCommentSubmissions = new ArrayList<>();
         this.commentSubmissions = new ArrayList<>();
         this.submissions = new ArrayList<>();
-        this.upvotedSubmissions = new ArrayList<>();
+        this.upVotedSubmissions = new ArrayList<>();
         this.favoriteSubmissions = new ArrayList<>();
     }
 
 
 
     public void removeFromUpvotedSubmissions(String postId) {
-        Iterator itr = this.upvotedSubmissions.iterator();
+        Iterator itr = this.upVotedSubmissions.iterator();
         while(itr.hasNext()) {
             String upvotedPostId = (String) itr.next();
             if(upvotedPostId.equals(postId)) {
@@ -53,7 +54,7 @@ public class User {
     }
 
     public void removeFromFavoriteSubmissions(String postId) {
-        Iterator itr = this.upvotedSubmissions.iterator();
+        Iterator itr = this.upVotedSubmissions.iterator();
         while(itr.hasNext()) {
             String favoritePostId = (String) itr.next();
             if(favoritePostId.equals(postId)) {

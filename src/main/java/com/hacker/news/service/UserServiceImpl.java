@@ -90,9 +90,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<String> getListOfUpvotedSubmission(String userName) {
+    public List<String> getListOfUpVotedSubmission(String userName) {
         User user = userRepository.findOneByUserName(userName);
-        return user.getUpvotedSubmissions();
+        return user.getUpVotedSubmissions();
     }
 
     @Override
@@ -119,5 +119,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateKarmaByOne(String username) {
         userRepository.updateUserKarma(username);
+    }
+
+    @Override
+    public List<String> getListOfUpVotedCommentSubmission(String username) {
+        User user = userRepository.findOneByUserName(username);
+        return user.getUpVotedCommentSubmissions();
     }
 }

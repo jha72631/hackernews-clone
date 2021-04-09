@@ -79,7 +79,7 @@ public class CommentController {
         if (isLoggedIn) {
             UserPrincipal currentUser = userService.currentUser();
             model.addAttribute("username", currentUser.getUsername())
-                    .addAttribute("votedComments", new ArrayList<Post>());
+                    .addAttribute("votedComments",userService.getListOfUpVotedCommentSubmission(currentUser.getUsername()));
         }
     }
 }

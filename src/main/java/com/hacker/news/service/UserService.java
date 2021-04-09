@@ -19,10 +19,11 @@ public interface UserService {
     User updateUserCommentSubmissions(String userName, String commentId, boolean isToBeAdded);
     User updateUserFavoriteSubmissions(String userName, String postId, boolean isToBeAdded);
     List<String> getListOfUsersSubmission(String userName);
-    List<String> getListOfUpvotedSubmission(String userName);
+    List<String> getListOfUpVotedSubmission(String userName);
     List<String> getListOfFavoriteSubmission(String userName);
     boolean isAuthorised();
     boolean isLoggedIn();
     UserPrincipal currentUser();
     void updateKarmaByOne(String username);
+    List<String> getListOfUpVotedCommentSubmission(String username);
 }
