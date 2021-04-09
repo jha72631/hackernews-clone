@@ -36,8 +36,10 @@ public class PostServiceImpl implements PostService {
         post.setCreatedAt(new Date().getTime());
         post.setAuthor(userService.currentUser().getUsername());
         post.setScore(1);
+        post.setChildCount(0);
         Post post1 = postRepository.savePost(post);
         userService.updateUserSubmissions(post1.getAuthor(), post1.getPostId(), Boolean.TRUE);
+        userService.updateKarmaByOne(userService.currentUser().getUsername());
     }
 
     @Override

@@ -33,11 +33,11 @@
               <span> | </span>
               <a th:href="@{'/comment'}">comments</a>
               <span th:if="${isLoggedIn}"> | </span>
-              <a href="/comment?self=true" th:if="${isLoggedIn}">threads</a>
+              <a href="/threads" th:if="${isLoggedIn}">threads</a>
               <span> | </span>
               <a href="/post/new">submit</a>
               <span> | </span>
-              <a href="/users">users</a>
+              <a href="/users" th:if="${isLoggedIn}">users</a>
             </nav>
           </td>
           <td class="top-status" th:if="${isLoggedIn}">
@@ -65,7 +65,7 @@
           <td th:if="${page}" class="index text-align-right" th:text="(${iterStat.count} + (${page} - 1) * ${size}) + '.'"></td>
           <td th:unless="${page}"></td>
           <td class="vote">
-            <a th:if="${isLoggedIn}" th:id="'up_post_' + ${post.postId}" onclick="return vote(this);" href="javascript:void(0);"
+            <a th:href="@{'/post/upVote/page?page='+${page}+'&type='+${type}+'&postId='+${post.postId}}" th:if="${isLoggedIn}"
                th:style="${#lists.contains(votedPosts, post.postId)} ? 'visibility: hidden'"><div class="votearrow"></div></a>
             <a href="/login" th:unless="${isLoggedIn}"><div class="votearrow"></div></a>
           </td>
@@ -74,7 +74,7 @@
             <span class="subtext">(<a th:href="@{/post(site=${post.author})}" th:text="${post.author}"></a>)</span>
           </td>
           <td th:unless="${#strings.equals(post.url, null)}">
-            <a target="_blank" th:href="${post.url}" th:text="${post.title}"></a>
+            <a th:href="@{'/post/'+${post.postId}}" th:text="${post.title}"></a>
           </td>
         </tr>
         <tr>
@@ -84,7 +84,10 @@
             <time th:datetime="${post.createdAt}" th:text="${#dates.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></time>
             <span> | </span>
             <a th:href="@{'/post/'+${post.postId}}"
-               th:text="${post.score} > 0 ? ${post.score} + ' comments' : 'discuss'"></a>
+               th:text="${post.childCount} > 0 ? ${post.childCount} + ' comments' : 'discuss'"></a>
+            <span> | </span>
+            <a th:href="@{'/post/downVote/page?page='+${page}+'&type='+${type}+'&postId='+${post.postId}}" th:if="${isLoggedIn}"
+               th:style="${#lists.contains(votedPosts, post.postId)} ? '':'visibility: hidden'" th:text="unvote"></a>
           </td>
         </tr>
       </th:block>

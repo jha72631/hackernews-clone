@@ -34,9 +34,11 @@
               <span> | </span>
               <a href="/comment">comments</a>
               <span th:if="${isLoggedIn}"> | </span>
-              <a href="/comment?self=true" th:if="${isLoggedIn}">threads</a>
+              <a href="/threads" th:if="${isLoggedIn}">threads</a>
               <span> | </span>
               <a href="/post/new">submit</a>
+              <span th:if="${isLoggedIn}"> | </span>
+              <a href="/users" th:if="${isLoggedIn}">users</a>
             </nav>
           </td>
           <td class="top-status" th:if="${isLoggedIn}">
@@ -73,7 +75,7 @@
           <span> | </span>
           <a th:href="@{/comment/{id}(id=${comment.parentCommentId})}" th:if="${comment.parentCommentId}">parent</a>
           <a th:href="@{/post/{id}(id=${comment.parentStoryId})}" th:unless="${comment.parentStoryId}">parent</a>
-          <span> | on: </span>
+          <span> | </span>
           <a th:href="@{/post/{id}(id=${comment.parentStoryId})}" th:text="Post"></a>
         </td>
       </tr>

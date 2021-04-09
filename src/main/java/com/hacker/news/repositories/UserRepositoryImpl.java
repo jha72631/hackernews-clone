@@ -185,4 +185,13 @@ public class UserRepositoryImpl implements UserRepository {
     public void deleteUser(User user) {
         mongoTemplate.remove(user);
     }
+
+    @Override
+    public void updateUserKarma(String username) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userName").is(username));
+        User user = mongoTemplate.findOne(query, User.class);
+        user.setUserKarma(user.getUserKarma()+1);
+        mongoTemplate.save(user);
+    }
 }

@@ -1,8 +1,12 @@
 package com.hacker.news.model;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@Setter
+@Getter
 @Document(collection = "post")
 public class Post {
 
@@ -15,6 +19,7 @@ public class Post {
     private String url;
     private String textContent;
     private Integer score;
+    private Integer childCount;
 
     public Post() {
     }

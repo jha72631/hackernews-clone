@@ -1,9 +1,7 @@
 package com.hacker.news.service;
 
-import com.hacker.news.dto.CommentDto;
 import com.hacker.news.model.Comment;
 import com.hacker.news.repositories.CommentRepository;
-import com.hacker.news.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -59,7 +57,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void updateCommentScoreAndUpvotedCommentSubmissions(String userName, String commentId, boolean isToBeAdded) {
         commentRepository.updateCommentScore(commentId, isToBeAdded);
-        userService.updateUserUpvotedCommentSubmissions(userName, commentId, isToBeAdded);
+        userService.updateUserUpVotedCommentSubmissions(userName, commentId, isToBeAdded);
     }
 
     @Override
@@ -70,7 +68,11 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComments(Comment comment) {
         commentRepository.deleteComment(comment);
-        return ;
+    }
+
+    @Override
+    public List<Comment> fetchAllCommentsByAuthor(String author) {
+        return commentRepository.fetchAllCommentByAuthor(author);
     }
 
 }

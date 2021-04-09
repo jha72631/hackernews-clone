@@ -19,4 +19,5 @@ public interface CommentRepository {
     void updateCommentScore(String commentId, boolean isToBeAdded);
     Comment updateOneComment(Comment comment);
     void deleteComment(Comment comment);
+    List<Comment> fetchAllCommentByAuthor(String author);
 }

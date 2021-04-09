@@ -1,10 +1,12 @@
 package com.hacker.news.model;
 
-import lombok.ToString;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@ToString
+@Setter
+@Getter
 @Document(collection = "department")
 public class Comment {
 
@@ -17,6 +19,7 @@ public class Comment {
     private String text;
     private Long createdAt;
     private Integer score;
+    private Integer childCount;
 
     public Comment() {
     }

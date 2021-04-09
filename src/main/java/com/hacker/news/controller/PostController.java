@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.ArrayList;
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
+import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @Controller
 public class PostController {
@@ -37,6 +38,7 @@ public class PostController {
     @RequestMapping(value = "/post/new", method = GET)
     public String editor(Model model) {
         Post post = new Post();
+        isLoggedIn(model);
         model.addAttribute("post",post);
         return "post-editor";
     }
@@ -87,6 +89,20 @@ public class PostController {
         return "viewpost";
     }
 
+    @RequestMapping(value = "/post/downVote/page", method = GET)
+    public String downVotePost(@RequestParam("page") int page, @RequestParam("type") String type,
+                             @RequestParam("postId") String postId, Model model){
+        postService.updatePostScoreAndUserUpvotedSubmission(userService.currentUser().getUsername(),postId,false);
+        return findPaginated(page,type,model);
+    }
+
+    @RequestMapping(value = "/post/upVote/page", method = GET)
+    public String upVotePost(@RequestParam("page") int page, @RequestParam("type") String type,
+                             @RequestParam("postId") String postId, Model model){
+        postService.updatePostScoreAndUserUpvotedSubmission(userService.currentUser().getUsername(),postId,true);
+        return findPaginated(page,type,model);
+    }
+
     void isLoggedIn(Model model){
         boolean isLoggedIn =  userService.isLoggedIn();
         model.addAttribute("isLoggedIn", isLoggedIn);
@@ -94,8 +110,9 @@ public class PostController {
             UserPrincipal currentUser = userService.currentUser();
             model.addAttribute("username", currentUser.getUsername())
                     .addAttribute("votedComments",userService
-                            .getListOfUpvotedSubmission(userService.currentUser().getUsername()))
-                    .addAttribute("votedPosts", new ArrayList<Post>());
+                            .getListOfUpvotedSubmission(currentUser.getUsername()))
+                    .addAttribute("votedPosts", userService
+                            .getListOfUpvotedSubmission(currentUser.getUsername()));
         }
     }
 }

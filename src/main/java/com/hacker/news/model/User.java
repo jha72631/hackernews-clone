@@ -16,7 +16,7 @@ public class User {
     private String userId;
     private String userName;
     private String password;
-    private String userKarma;
+    private Integer userKarma;
     private Long createdAt;
     private String about;
     private String email;
@@ -31,7 +31,7 @@ public class User {
     public User(String userName, String password,String email) {
         this.userName = userName;
         this.password = password;
-        this.userKarma = "1";
+        this.userKarma = 1;
         this.createdAt = new Date().getTime();
         this.email = email;
         this.commentSubmissions = new ArrayList<>();

@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User updateUserUpvotedCommentSubmissions(String userName, String commentId, boolean isToBeAdded) {
+    public User updateUserUpVotedCommentSubmissions(String userName, String commentId, boolean isToBeAdded) {
         return userRepository.updateUserUpvotedCommentSubmissions(userName, commentId, isToBeAdded);
     }
 
@@ -114,5 +114,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserPrincipal currentUser() {
           return (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    @Override
+    public void updateKarmaByOne(String username) {
+        userRepository.updateUserKarma(username);
     }
 }

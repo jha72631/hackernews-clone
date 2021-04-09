@@ -15,7 +15,7 @@ public interface UserService {
     User updateUserAbout(String userName, String about);
     User updateUserSubmissions(String userName, String postId, boolean isToBeAdded);
     User updateUserUpvotedSubmissions(String userName, String postId, boolean isToBeAdded);
-    User updateUserUpvotedCommentSubmissions(String userName, String commentId, boolean isToBeAdded);
+    User updateUserUpVotedCommentSubmissions(String userName, String commentId, boolean isToBeAdded);
     User updateUserCommentSubmissions(String userName, String commentId, boolean isToBeAdded);
     User updateUserFavoriteSubmissions(String userName, String postId, boolean isToBeAdded);
     List<String> getListOfUsersSubmission(String userName);
@@ -24,4 +24,5 @@ public interface UserService {
     boolean isAuthorised();
     boolean isLoggedIn();
     UserPrincipal currentUser();
+    void updateKarmaByOne(String username);
 }

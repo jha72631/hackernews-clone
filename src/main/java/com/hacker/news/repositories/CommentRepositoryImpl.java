@@ -96,4 +96,11 @@ public class CommentRepositoryImpl implements CommentRepository{
     public void deleteComment(Comment comment) {
         mongoTemplate.remove(comment);
     }
+
+    @Override
+    public List<Comment> fetchAllCommentByAuthor(String author) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("author").is(author));
+        return mongoTemplate.find(query, Comment.class);
+    }
 }

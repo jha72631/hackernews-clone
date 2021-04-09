@@ -34,7 +34,7 @@
                             <span> | </span>
                             <a href="/comment">comments</a>
                             <span th:if="${isLoggedIn}"> | </span>
-                            <a href="/comment?self=true" th:if="${isLoggedIn}">threads</a>
+                            <a href="/threads" th:if="${isLoggedIn}">threads</a>
                             <span> | </span>
                             <a href="/post/new">submit</a>
                         </nav>
@@ -47,7 +47,7 @@
                         </form>
                     </td>
                     <td class="top-status" th:unless="${isLoggedIn}">
-                        <a href="/user">login</a>
+                        <a href="/login">login</a>
                     </td>
                 </tr>
                 </thead>
@@ -81,7 +81,7 @@
                         <td class="subtext"><span th:text="${post.score}"></span> points by <a th:href="@{'/user/' + ${post.author}}" th:text="${post.author}"></a>
                             <time th:datetime="${post.createdAt}" th:text="${#dates.format(post.createdAt, 'yyyy-MM-dd HH:mm')}"></time>
                             <span> | </span>
-                            <a th:href="@{'/post/' + ${post.postId}}" th:text="${post.score} > 0 ? ${post.score} + ' comments' : 'discuss'"></a>
+                            <a th:href="@{'/post/' + ${post.postId}}" th:text="${post.childCount} > 0 ? ${post.childCount} + ' comments' : 'discuss'"></a>
                         </td>
                     </tr>
                     <tr th:unless="${#strings.equals(post.url, null)}">

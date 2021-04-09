@@ -9,7 +9,7 @@ function vote(node) {
     var arrow = v[0];
     var type = v[1];
     var id = v[2];
-    var url = "/" + type + "/" + id + "/point";
+    var url = "/" + type + "/vote/" + id;
     if (arrow === 'up') {
         ajax(url, 'POST', function () {
             hide('up_' + type + '_' + id);

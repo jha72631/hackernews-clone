@@ -15,4 +15,5 @@ public interface CommentService {
     void updateCommentScoreAndUpvotedCommentSubmissions(String userName, String commentId, boolean isToBeAdded);
     List<Comment> fetchAllComments();
     void deleteComments(Comment comment);
+    List<Comment> fetchAllCommentsByAuthor(String author);
 }
