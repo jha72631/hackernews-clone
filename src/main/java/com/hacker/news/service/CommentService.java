@@ -11,6 +11,7 @@ public interface CommentService {
     List<Comment> fetchCommentByParentStoryId(String parentStoryId);
     List<Comment> fetchCommentByParentType(String parentType);
     List<Comment> fetchCommentByParentTypeAndPostId(String parentType, String postId);
+    void updateCommentScoreAndUpvotedCommentSubmissions(String userName, String commentId, boolean isToBeAdded);
     List<Comment> fetchAllComments();
     void deleteComments(Comment comment);
 }

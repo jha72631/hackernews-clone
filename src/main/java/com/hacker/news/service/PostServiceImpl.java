@@ -35,7 +35,8 @@ public class PostServiceImpl implements PostService {
         post.setCreatedAt(new Date().getTime());
         post.setAuthor(userService.currentUser().getUsername());
         post.setScore(1);
-        postRepository.savePost(post);
+        Post post1 = postRepository.savePost(post);
+        userService.updateUserSubmissions(post1.getAuthor(), post1.getPostId(), Boolean.TRUE);
     }
 
     @Override
@@ -87,6 +88,14 @@ public class PostServiceImpl implements PostService {
         Post post = postRepository.getPostById(postId);
         postRepository.deletePost(post);
     }
+
+    @Override
+    public void updatePostScoreAndUserUpvotedSubmission(String userName ,String postId, boolean isToBeAdded) {
+        postRepository.updatePostScore(postId, isToBeAdded);
+        userService.updateUserUpvotedSubmissions(userName, postId, isToBeAdded);
+    }
+
+
 
     public void populateHierarchicalCommentDto(String parentCommentId, List<CommentDto> commentDtoList) {
         List<Comment> commentList = commentService.fetchCommentByParentCommentId(parentCommentId);

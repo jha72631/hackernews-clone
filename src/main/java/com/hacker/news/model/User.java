@@ -25,6 +25,8 @@ public class User {
     private String email;
     private List<String> submissions;
     private List<String> upvotedSubmissions;
+    private List<String> commentSubmissions;
+    private List<String> upvotedCommentSubmissions;
     private List<String> favoriteSubmissions;
 
     public User() {
@@ -41,6 +43,8 @@ public class User {
         this.upvotedSubmissions = new ArrayList<>();
         this.favoriteSubmissions = new ArrayList<>();
     }
+
+
 
     public void removeFromUpvotedSubmissions(String postId) {
         Iterator itr = this.upvotedSubmissions.iterator();

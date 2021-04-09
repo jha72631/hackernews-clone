@@ -76,6 +76,16 @@ public class CommentRepositoryImpl implements CommentRepository{
     }
 
     @Override
+    public void updateCommentScore(String commentId, boolean isToBeAdded) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("commentId").is(commentId));
+        Comment comment = mongoTemplate.findOne(query, Comment.class);
+        if(isToBeAdded)comment.setScore(comment.getScore() + 1);
+        else comment.setScore(comment.getScore() - 1);
+        mongoTemplate.save(comment);
+    }
+
+    @Override
     public Comment updateOneComment(Comment comment) {
         return null;
     }

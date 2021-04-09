@@ -110,6 +110,48 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public User updateUserUpvotedCommentSubmissions(String userName, String commentId, boolean isToBeAdded) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userName").is(userName));
+        User user = mongoTemplate.findOne(query, User.class);
+        if(isToBeAdded) {
+            user.getUpvotedCommentSubmissions().add(commentId);
+        } else {
+            List<String> listOfUpvotedCommentSubmissions = user.getUpvotedCommentSubmissions();
+            Iterator itr = listOfUpvotedCommentSubmissions.iterator();
+            while(itr.hasNext()) {
+                String upvotedCommentId = (String) itr.next();
+                if(upvotedCommentId.equals(commentId)) {
+                    itr.remove();
+                }
+            }
+        }
+        mongoTemplate.save(user);
+        return user;
+    }
+
+    @Override
+    public User updateUserCommentSubmissions(String userName, String commentId, boolean isToBeAdded) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("userName").is(userName));
+        User user = mongoTemplate.findOne(query, User.class);
+        if(isToBeAdded) {
+            user.getCommentSubmissions().add(commentId);
+        } else {
+            List<String> listOfCommentSubmissions = user.getCommentSubmissions();
+            Iterator itr = listOfCommentSubmissions.iterator();
+            while(itr.hasNext()) {
+                String submittedCommentId = (String) itr.next();
+                if(submittedCommentId.equals(commentId)) {
+                    itr.remove();
+                }
+            }
+        }
+        mongoTemplate.save(user);
+        return user;
+    }
+
+    @Override
     public User updateUserFavoriteSubmissions(String userName, String postId, boolean isToBeAdded) {
         Query query = new Query();
         query.addCriteria(Criteria.where("userName").is(userName));

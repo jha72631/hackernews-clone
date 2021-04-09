@@ -15,6 +15,8 @@ public interface UserRepository {
     User updateUserAbout(String userName, String about);
     User updateUserSubmissions(String userName, String postId, boolean isToBeAdded);
     User updateUserUpvotedSubmissions(String userName, String postId, boolean isToBeAdded);
+    User updateUserUpvotedCommentSubmissions(String userName, String commentId, boolean isToBeAdded);
+    User updateUserCommentSubmissions(String userName, String commentId, boolean isToBeAdded);
     User updateUserFavoriteSubmissions(String userName, String postId, boolean isToBeAdded);
     void deleteUser(User user);
 }

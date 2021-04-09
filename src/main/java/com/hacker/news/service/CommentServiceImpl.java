@@ -26,7 +26,8 @@ public class CommentServiceImpl implements CommentService {
         comment.setCreatedAt(new Date().getTime());
         comment.setScore(1);
         comment.setAuthor(userService.currentUser().getUsername());
-        commentRepository.saveComment(comment);
+        Comment comment1 = commentRepository.saveComment(comment);
+        userService.updateUserCommentSubmissions(comment1.getAuthor(), comment1.getCommentId(), Boolean.TRUE);
     }
 
     @Override
@@ -55,6 +56,12 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
+    public void updateCommentScoreAndUpvotedCommentSubmissions(String userName, String commentId, boolean isToBeAdded) {
+        commentRepository.updateCommentScore(commentId, isToBeAdded);
+        userService.updateUserUpvotedCommentSubmissions(userName, commentId, isToBeAdded);
+    }
+
+    @Override
     public List<Comment> fetchAllComments() {
         return commentRepository.getAllComment();
     }
@@ -62,7 +69,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void deleteComments(Comment comment) {
         commentRepository.deleteComment(comment);
-        return;
+        return ;
     }
 
 }

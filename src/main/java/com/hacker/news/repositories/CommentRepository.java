@@ -15,6 +15,7 @@ public interface CommentRepository {
     List<Comment> fetchCommentsByParentType(String parentType);
     List<Comment> fetchCommentsByParentTypeAndPostId(String parentType, String postId);
     List<Comment> findByAuthorName(String name);
+    void updateCommentScore(String commentId, boolean isToBeAdded);
     Comment updateOneComment(Comment comment);
     void deleteComment(Comment comment);
 }
