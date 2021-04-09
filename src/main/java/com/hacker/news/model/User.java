@@ -27,15 +27,11 @@ public class User {
     private List<String> upvotedSubmissions;
     private List<String> favoriteSubmissions;
 
-    public User() {
-    }
-
-    public User(String userName, String password,String about, String email) {
+    public User(String userName, String password,String email) {
         this.userName = userName;
         this.password = password;
         this.userKarma = "1";
         this.createdAt = new Date().getTime();
-        this.about = about;
         this.email = email;
         this.submissions = new ArrayList<>();
         this.upvotedSubmissions = new ArrayList<>();

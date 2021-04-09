@@ -30,14 +30,13 @@ public class UserController {
         return "login";
     }
 
-    @RequestMapping(value = "/user/create")
+    @RequestMapping(value = "/user", method = POST)
     public String createUser(@RequestParam("username")String username,
                              @RequestParam("password")String password,
-                             @RequestParam("about")String about,
                              @RequestParam("email")String email) {
         System.out.println("inside controller");
-        User user = new User(username,password,about,email);
+        User user = new User(username,password,email);
         userService.createUser(user);
-        return "redirect:/post";
+        return "redirect:/";
     }
 }
